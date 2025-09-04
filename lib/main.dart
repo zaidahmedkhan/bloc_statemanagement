@@ -2,6 +2,7 @@ import 'package:bloc_demo/bloc/counter/counter_bloc.dart';
 import 'package:bloc_demo/bloc/image_picker/image_picker_bloc.dart';
 import 'package:bloc_demo/bloc/switch/switch_bloc.dart';
 import 'package:bloc_demo/bloc/todo/todo_bloc.dart';
+import 'package:bloc_demo/ui/favorite_app/favorite_app_screen.dart';
 import 'package:bloc_demo/ui/image_picker/image_picker_screen.dart';
 import 'package:bloc_demo/ui/switch_example/switch_example_screen.dart';
 import 'package:bloc_demo/ui/todo/todo_screen.dart';
@@ -45,13 +46,14 @@ class MyApp extends StatelessWidget {
         BlocProvider(create: (_) => SwitchBloc()),
         BlocProvider(create: (_) => ImagePickerBloc(ImagePickerUtils())),
         BlocProvider(create: (_) => TodoBloc()),
-
       ],
-      child: const MaterialApp(
+      child: MaterialApp(
         debugShowCheckedModeBanner: false,
+        theme: ThemeData(brightness: Brightness.dark, useMaterial3: true),
         // home: SwitchExampleScreen(),
         // home: ImagePickerScreen(),
-        home: TodoScreen(),
+        // home: TodoScreen(),
+        home: FavoriteAppScreen(),
       ),
     );
   }
