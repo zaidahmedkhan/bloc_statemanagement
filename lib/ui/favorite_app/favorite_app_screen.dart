@@ -41,18 +41,41 @@ class _FavoriteAppScreenState extends State<FavoriteAppScreen> {
                     final item = state.favoriteItemList[index];
                     return Card(
                       child: ListTile(
+                        leading: Checkbox(
+                          value: state.tempFavoriteItemList.contains(item)
+                              ? true
+                              : false,
+                          onChanged: (value) {
+                            if (value!) {
+                              context.read<FavoriteAppBloc>().add(
+                                SelectItem(item),
+                              );
+                            } else {
+                              context.read<FavoriteAppBloc>().add(
+                                UnSelectItem(item),
+                              );
+                            }
+                          },
+                        ),
                         title: Text(item.value),
                         trailing: IconButton(
                           onPressed: () {
-                           FavoriteItemsModel favoriteItemsModel =  FavoriteItemsModel(
-                              id: item.id,
-                              value: item.value,
-                              isFavorite: item.isFavorite ? false : true,
-                            );
+                            FavoriteItemsModel favoriteItemsModel =
+                                FavoriteItemsModel(
+                                  id: item.id,
+                                  value: item.value,
+                                  isFavorite: item.isFavorite ? false : true,
+                                );
 
-                            context.read<FavoriteAppBloc>().add(FavoriteItem(favoriteItemsModel));
+                            context.read<FavoriteAppBloc>().add(
+                              FavoriteItem(favoriteItemsModel),
+                            );
                           },
-                          icon: Icon(item.isFavorite ? Icons.favorite : Icons.favorite_outline),
+                          icon: Icon(
+                            item.isFavorite
+                                ? Icons.favorite
+                                : Icons.favorite_outline,
+                          ),
                         ),
                       ),
                     );
