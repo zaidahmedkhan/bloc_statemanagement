@@ -22,7 +22,25 @@ class _FavoriteAppScreenState extends State<FavoriteAppScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(centerTitle: true, title: Text("Favorite App")),
+      appBar: AppBar(
+        centerTitle: true,
+        title: Text("Favorite App"),
+        actions: [
+          BlocBuilder<FavoriteAppBloc, FavoriteAppStates>(
+            builder: (context, state) {
+              return Visibility(
+                visible: state.tempFavoriteItemList.isNotEmpty ? true : false,
+                child: IconButton(
+                  onPressed: () {
+                    context.read<FavoriteAppBloc>().add(DeleteItem());
+                  },
+                  icon: Icon(Icons.delete, color: Colors.red),
+                ),
+              );
+            },
+          ),
+        ],
+      ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: BlocBuilder<FavoriteAppBloc, FavoriteAppStates>(
