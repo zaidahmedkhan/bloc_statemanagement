@@ -1,6 +1,7 @@
 import 'package:bloc_demo/bloc/favorite_app/favorite_app_bloc.dart';
 import 'package:bloc_demo/bloc/favorite_app/favorite_app_events.dart';
 import 'package:bloc_demo/bloc/favorite_app/favorite_app_states.dart';
+import 'package:bloc_demo/model/favorite_items_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -28,7 +29,9 @@ class _FavoriteAppScreenState extends State<FavoriteAppScreen> {
           builder: (context, state) {
             switch (state.listStatus) {
               case ListStatus.loading:
-                return Center(child: const CircularProgressIndicator(color: Colors.white,));
+                return Center(
+                  child: const CircularProgressIndicator(color: Colors.white),
+                );
               case ListStatus.failure:
                 return const Text('Something went wrong');
               case ListStatus.success:
@@ -39,9 +42,20 @@ class _FavoriteAppScreenState extends State<FavoriteAppScreen> {
                     return Card(
                       child: ListTile(
                         title: Text(item.value),
-                        trailing: IconButton(onPressed: (){}, icon: Icon(Icons.favorite_outline)),
-                        
-                        ),);
+                        trailing: IconButton(
+                          onPressed: () {
+                           FavoriteItemsModel favoriteItemsModel =  FavoriteItemsModel(
+                              id: item.id,
+                              value: item.value,
+                              isFavorite: item.isFavorite ? false : true,
+                            );
+
+                            context.read<FavoriteAppBloc>().add(FavoriteItem(favoriteItemsModel));
+                          },
+                          icon: Icon(item.isFavorite ? Icons.favorite : Icons.favorite_outline),
+                        ),
+                      ),
+                    );
                   },
                 );
             }

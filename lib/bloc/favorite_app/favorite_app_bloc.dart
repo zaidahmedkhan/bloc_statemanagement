@@ -33,5 +33,11 @@ class FavoriteAppBloc extends Bloc<FavoriteAppEvents, FavoriteAppStates> {
     }
   }
 
-  void addFavoriteItem(FavoriteItem event, Emitter<FavoriteAppStates> emit) {}
+  void addFavoriteItem(FavoriteItem event, Emitter<FavoriteAppStates> emit) {
+    final index = favoriteList.indexWhere(
+      (element) => element.id == event.item.id,
+    );
+    favoriteList[index] = event.item;
+    emit(state.copyWith(favoriteItemList: List.from(favoriteList)));
+  }
 }
